@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UbuntuSky</title>
+
+    
+    <link rel="stylesheet" href="/styles/style.css">
+
+</head>
+<body>
+    <div class="container main-container">
+        <div class="weather-display">
+        
+            <div class="weather-card">
+                <section class="header">
+                    <div class="container">
+                        <h1 class="weather-header">UbuntuSky</h1>
+                        <h1 class="weather-header">Weather App</h1>
+                    </div>
+                </section>
+
+                <form action ="/" method = "post" class="weatherForm" style="position: relative;">
+                    <input id="cityName" class="search-box" placeholder="Enter City or State Name" type="text" name="city" placeholder="City/State" autocomplete="off" >
+                    <button class="search-button" type="submit" ><i class="fa fa-search" style ="color: #6C757D;"></i></button>
+                </form>
+                
+                <% if(weatherData !== null ){ %>
+                <h4 class="city-name"><%= cityName %></h4>
+                <small class="country-code"><%= countryName %></small>
+                <h2 class="large-font" title="Feels Like: <%= feels_like %>&deg;C"><%= temp %> &deg;C</h2>
+                <small class="text-muted"><%= date %>, <%= currentDay %></small>
+                <div class="sky">
+                    <img class="" src="<%= icon %>">
+                    <h5><%= desc.toUpperCase() %></h5>
+                </div>
+
+                <div class="weather-forcast">
+                    <% for (let i = 0; i < fiveDaysForecast.length; i++) { %>   
+                        <% if((new Date(fiveDaysForecast[i].dt_txt).toLocaleString('en-US', { weekday: 'short',})) !== (currentDay)){ %>
+
+                    <div class="week-day" title="<%= fiveDaysForecast[i].weather[0].description %>">
+                        <small class="day"><%= new Date(fiveDaysForecast[i].dt_txt).toLocaleString('en-US', { weekday: 'short',}) %></small>
+                        <div class="text-center"><img class="symbol-img" src="https://openweathermap.org/img/wn/<%= fiveDaysForecast[i].weather[0].icon %>@2x.png"></div>
+                        <h6><strong><%= fiveDaysForecast[i].main.temp %> &deg;C</strong></h6>
+                    </div>
+                    
+                    <% } %>
+                <% } %>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    <% } %>
+
+    <% if(error !== null){ %>
+        <p><%= error %></p>
+    <% } %>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</body>
+
+</html>
